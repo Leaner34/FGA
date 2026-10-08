@@ -1,5 +1,6 @@
 package io.github.fate_grand_automata.ui.battle_config_list
 
+import android.content.ClipboardManager
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
@@ -80,6 +81,37 @@ class BattleConfigListViewModel @Inject constructor(
         val guid = UUID.randomUUID().toString()
 
         return prefs.addBattleConfig(guid)
+    }
+
+    /** Only reads the clipboard after an explicit user action. */
+    fun importFromClipboard(context: Context) {
+        runCatching {
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = clipboard.primaryClip
+            require(clip != null && clip.itemCount > 0) { "Clipboard is empty" }
+            val text = clip.getItemAt(0).coerceToText(context).toString()
+            // Fully validate before creating the entry.
+            val values = ClipboardBattleConfigImporter.parse(text)
+            val config = newConfig()
+            try {
+                config.import(values)
+            } catch (error: Exception) {
+                prefs.removeBattleConfig(config.id)
+                throw error
+            }
+        }.onSuccess {
+            Toast.makeText(context, R.string.battle_config_list_clipboard_success, Toast.LENGTH_SHORT).show()
+        }.onFailure { error ->
+            Timber.w(error, "Failed to import clipboard config")
+            Toast.makeText(
+                context,
+                context.getString(
+                    R.string.battle_config_list_clipboard_error,
+                    error.message ?: "Unknown error"
+                ),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     data class ImportExportResult(val failureCount: Int)
