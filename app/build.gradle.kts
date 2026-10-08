@@ -97,6 +97,7 @@ android {
         applicationId = "io.github.fate_grand_automata"
         minSdk = 24
         targetSdk = 36
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         versionCode = System.getenv("FGA_VERSION_CODE")?.toInt() ?: 1
         versionName = System.getenv("FGA_VERSION_NAME") ?: System.getenv("FGA_VERSION_CODE") ?: "0.1.0"
     }
@@ -145,8 +146,9 @@ android {
         abortOnError = false
         disable += "MissingTranslation"
     }
-    // run tests in CI builds instad of debug
-    testBuildType = "ci"
+    // Emulator is x86_64; the ci APK filters native libraries to ARM only.
+    // UI instrumentation tests therefore run against the normal debug variant.
+    testBuildType = "debug"
 
     packaging {
         jniLibs {
@@ -232,6 +234,9 @@ dependencies {
         because("kotlin-test comes with conflicting junit versions")
     }
     testImplementation(libs.kotlin.test.junit5)
+    androidTestImplementation("androidx.test:runner:1.6.2")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")
     testImplementation(libs.willowtreeapps.assertk)
 }
 
