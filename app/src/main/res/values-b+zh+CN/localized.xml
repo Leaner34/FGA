@@ -26,6 +26,9 @@
     <string name="battle_config_list_export_all">"导出全部脚本"</string>
     <string name="battle_config_list_export_failed">"导出 %d 个脚本失败"</string>
     <string name="battle_config_list_import">"导入脚本"</string>
+    <string name="battle_config_list_import_clipboard">"粘贴导入"</string>
+    <string name="battle_config_list_clipboard_success">"已从剪贴板导入战斗脚本"</string>
+    <string name="battle_config_list_clipboard_error">"剪贴板导入失败：%s"</string>
     <string name="battle_config_list_import_failed">"导入 %d 个脚本失败"</string>
     <string name="battle_config_list_no_items">"目前没有脚本，请按右下角的加号新增"</string>
     <string name="battle_config_support_any">"任何"</string>

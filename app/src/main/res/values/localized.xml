@@ -14,6 +14,9 @@
     <string name="support_imgs_extract_failed">"Couldn't extract support images"</string>
     <string name="battle_config_list_no_items">"No configs"</string>
     <string name="battle_config_list_import">"Import"</string>
+    <string name="battle_config_list_import_clipboard">"Paste import"</string>
+    <string name="battle_config_list_clipboard_success">"Battle config imported from clipboard"</string>
+    <string name="battle_config_list_clipboard_error">"Clipboard import failed: %s"</string>
     <string name="battle_config_list_export_all">"Export all"</string>
     <string name="battle_config_list_delete">"Delete"</string>
     <string name="battle_config_list_export_failed">"Failed to export %d item(s)"</string>
