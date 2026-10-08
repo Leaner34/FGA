@@ -98,6 +98,7 @@ fun BattleConfigListScreen(
                     navigate(it.id)
                 }
 
+                BattleConfigListAction.ImportClipboard -> vm.importFromClipboard(context)
                 BattleConfigListAction.Export -> battleConfigsExport.launch(Uri.EMPTY)
                 BattleConfigListAction.Import -> battleConfigImport.launch(
                     //octet-stream as backup in case Android doesn't detect json
@@ -114,6 +115,7 @@ fun BattleConfigListScreen(
 private sealed class BattleConfigListAction {
     object Export : BattleConfigListAction()
     object Import : BattleConfigListAction()
+    object ImportClipboard : BattleConfigListAction()
     object Delete : BattleConfigListAction()
     object AddNew : BattleConfigListAction()
     class ToggleSelected(val id: String) : BattleConfigListAction()
@@ -166,6 +168,16 @@ private fun BattleConfigListContent(
                                 onClick = { action(BattleConfigListAction.Import) }
                             )
                         }
+                    }
+                }
+
+                // Keep the paste action outside the header button row to fit narrow screens.
+                if (!selectionMode) {
+                    Row(modifier = Modifier.padding(horizontal = 16.dp)) {
+                        HeadingButton(
+                            text = stringResource(R.string.battle_config_list_import_clipboard),
+                            onClick = { action(BattleConfigListAction.ImportClipboard) }
+                        )
                     }
                 }
 
